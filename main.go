@@ -1,0 +1,64 @@
+package main
+
+import (
+	"github.com/go-redis/cache"
+	"github.com/go-redis/redis"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
+)
+
+// 定义全区变量 为了保证执行顺序 初始化均在main中执行
+var (
+	// gorm mysql db connection
+	db *gorm.DB
+	// redis client
+	rdb *redis.Client
+	// global cache
+	cc *cache.Codec
+)
+
+func main() {
+	// init echo
+	e := echo.New()
+	e.HTTPErrorHandler = httpErrorHandler
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Use(middleware.CORS())
+	e.Use(middleware.KeyAuthWithConfig(middleware.KeyAuthConfig{
+		Skipper:   skipper,   // 跳过验证条件 在 auth.go 定义
+		Validator: validator, // 处理验证结果 在 auth.go 定义
+	}))
+
+	// debug setting
+	if config.APP.Debug {
+		e.Debug = true
+	}
+
+	// init mysql and redis
+	initDB()
+	defer db.Close()
+	initRedis()
+	defer rdb.Close()
+
+	// init global cache
+	initCache()
+
+	// async create tables
+	go createTables()
+
+	// auth
+	e.POST("/login", login)
+	e.GET("/status", getStatus)
+
+	// artwork Routes
+	e.GET("/notes", getNotes)
+	e.POST("/notes", createNote)
+	e.GET("/notes/:id", getNote)
+	e.PUT("/notes/:id", updateNote)
+	e.DELETE("/notes/:id", deleteNote)
+
+	// Start echo server
+	e.Logger.Fatal(e.Start(config.APP.Host + ":" + config.APP.Port))
+}
