@@ -76,7 +76,7 @@ func skipper(c echo.Context) bool {
 	case
 		// 公开信息
 		// "demo", // 示例，把需要公开的资源每个一行写这里
-		"notes":
+		"public":
 		return true
 	}
 	return false
@@ -108,7 +108,7 @@ func validator(token string, c echo.Context) (bool, error) {
 func parseUser(c echo.Context) (userID int, err error) {
 	userID, ok := c.Get("user_id").(int)
 	if !ok || userID == 0 {
-		return 0, newHTTPError(401, "Unauthorized", "本接口只有获得过详细信息的用户才能调用")
+		return 0, ErrUnauthorized
 	}
 	return userID, nil
 }

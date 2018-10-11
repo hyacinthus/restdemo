@@ -9,9 +9,10 @@ import (
 
 // 定义错误
 var (
-	ErrNotFound   = newHTTPError(404, "NotFound", "没有找到相应记录")
-	ErrAuthFailed = newHTTPError(401, "AuthFailed", "登录失败")
-	ErrForbidden  = newHTTPError(403, "Forbidden", "权限不足")
+	ErrNotFound     = newHTTPError(404, "NotFound", "没有找到相应记录")
+	ErrAuthFailed   = newHTTPError(401, "AuthFailed", "登录失败")
+	ErrUnauthorized = newHTTPError(401, "Unauthorized", "本接口只有登录用户才能调用")
+	ErrForbidden    = newHTTPError(403, "Forbidden", "权限不足")
 )
 
 // httpError 对外输出的错误格式

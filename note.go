@@ -15,6 +15,7 @@ type Note struct {
 	UserID      int        `json:"user_id" gorm:"index:idx_user_create"`
 	Title       string     `json:"title"`                    // 标题
 	Content     string     `json:"content" gorm:"size:2000"` // 内容
+	IsPublic    bool       `json:"is_public"`                // 是否公开
 	CreatedTime time.Time  `json:"created_time,omitempty" gorm:"index:idx_user_create"`
 	UpdatedTime time.Time  `json:"updated_time,omitempty"`
 	DeletedAt   *time.Time `json:"-"`
@@ -22,8 +23,9 @@ type Note struct {
 
 // NoteUpdate 更新请求结构体，用指针可以判断是否有请求这个字段
 type NoteUpdate struct {
-	Title   *string `json:"title"`   // 标题
-	Content *string `json:"content"` // 内容
+	Title    *string `json:"title"`     // 标题
+	Content  *string `json:"content"`   // 内容
+	IsPublic *bool   `json:"is_public"` // 是否公开
 }
 
 func findNoteByID(id int) (*Note, error) {
@@ -39,12 +41,20 @@ func createNote(c echo.Context) error {
 	if err := c.Bind(a); err != nil {
 		return err
 	}
+	// 校验
 	if a.Title == "" {
 		return newHTTPError(400, "BadRequest", "Empty title")
 	}
 	if a.Content == "" {
 		return newHTTPError(400, "BadRequest", "Empty content")
 	}
+	// 用户信息
+	userID, err := parseUser(c)
+	if err != nil {
+		return err
+	}
+	a.UserID = userID
+	// 保存
 	if err := db.Create(a).Error; err != nil {
 		return err
 	}
@@ -66,6 +76,14 @@ func updateNote(c echo.Context) error {
 	if err != nil {
 		return err
 	}
+	// 用户权限
+	userID, err := parseUser(c)
+	if err != nil {
+		return err
+	}
+	if userID != old.UserID {
+		return ErrForbidden
+	}
 	// 利用指针检查是否有请求这个字段
 	if n.Title != nil {
 		if *n.Title == "" {
@@ -79,6 +97,9 @@ func updateNote(c echo.Context) error {
 		}
 		old.Content = *n.Content
 	}
+	if n.IsPublic != nil {
+		old.IsPublic = *n.IsPublic
+	}
 
 	if err := db.Save(old).Error; err != nil {
 		return err
@@ -91,6 +112,19 @@ func deleteNote(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return newHTTPError(400, "InvalidID", "请在URL中提供合法的ID")
+	}
+	// 查询对象
+	n, err := findNoteByID(id)
+	if err != nil {
+		return err
+	}
+	// 用户权限
+	userID, err := parseUser(c)
+	if err != nil {
+		return err
+	}
+	if userID != n.UserID {
+		return ErrForbidden
 	}
 	// 删除数据库对象
 	if err := db.Delete(&Note{ID: id}).Error; err != nil {
@@ -108,13 +142,29 @@ func getNote(c echo.Context) error {
 	if err != nil {
 		return err
 	}
+	// 用户权限
+	userID, err := parseUser(c)
+	if err != nil {
+		return err
+	}
+	if userID != n.UserID && !n.IsPublic {
+		return ErrForbidden
+	}
 	return c.JSON(http.StatusOK, n)
 }
 
 func getNotes(c echo.Context) error {
 	// 提前make可以让查询没有结果的时候返回空列表
 	var ns = make([]*Note, 0)
-	if err := db.Find(&ns).Error; err != nil {
+	// 用户信息
+	userID, err := parseUser(c)
+	if err != nil {
+		return err
+	}
+	// 分页信息
+	limit := c.Get("limit").(int)
+	offset := c.Get("offset").(int)
+	if err := db.Where("user_id = ?", userID).Order("create_at desc").Offset(offset).Limit(limit).Find(&ns).Error; err != nil {
 		return err
 	}
 	return c.JSON(http.StatusOK, ns)
