@@ -11,11 +11,15 @@ import (
 var (
 	ErrNotFound   = newHTTPError(404, "NotFound", "没有找到相应记录")
 	ErrAuthFailed = newHTTPError(401, "AuthFailed", "登录失败")
+	ErrForbidden  = newHTTPError(403, "Forbidden", "权限不足")
 )
 
+// httpError 对外输出的错误格式
 type httpError struct {
-	code    int
-	Key     string `json:"error"`
+	code int
+	// 错误代码，为英文字符串，前端可用此判断大的错误类型。
+	Key string `json:"error"`
+	// 错误消息，为详细错误描述，前端可选择性的展示此字段。
 	Message string `json:"message"`
 }
 

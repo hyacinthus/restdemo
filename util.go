@@ -97,7 +97,3 @@ func newUUID() string {
 	}
 	return id.String()
 }
-
-func favicon(c echo.Context) error {
-	return c.Redirect(301, config.APP.FileURL+"favicon.png")
-}

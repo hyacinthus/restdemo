@@ -31,7 +31,7 @@ func main() {
 		Validator: validator, // 处理验证结果 在 auth.go 定义
 	}))
 
-	// debug setting
+	// Echo debug setting
 	if config.APP.Debug {
 		e.Debug = true
 	}
@@ -48,9 +48,11 @@ func main() {
 	// async create tables
 	go createTables()
 
+	// status
+	e.GET("/status", getStatus)
+
 	// auth
 	e.POST("/login", login)
-	e.GET("/status", getStatus)
 
 	// artwork Routes
 	e.GET("/notes", getNotes)

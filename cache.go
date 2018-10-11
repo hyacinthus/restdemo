@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/sirupsen/logrus"
 	"github.com/go-redis/cache"
 	"github.com/labstack/echo"
+	"github.com/sirupsen/logrus"
 	"github.com/vmihailenco/msgpack"
 )
 
@@ -42,7 +42,7 @@ func delcc(key string) {
 	cc.Delete(key)
 }
 
-// cleancc 清除一类缓存
+// cleancc 批量清除一类缓存
 func cleancc(cate string) {
 	if cate == "" {
 		logrus.Error("someone try to clean all cache keys")
