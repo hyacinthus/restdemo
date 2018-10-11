@@ -21,10 +21,11 @@ type Note struct {
 	// 是否公开
 	IsPublic bool `json:"is_public"`
 	// 创建时间
-	CreatedTime time.Time `json:"created_time,omitempty"`
+	CreatedAt time.Time `json:"created_at"`
 	// 最后更新时间
-	UpdatedTime time.Time  `json:"updated_time,omitempty" gorm:"index:idx_user_update"`
-	DeletedAt   *time.Time `json:"-"`
+	UpdatedAt time.Time `json:"updated_at" gorm:"index:idx_user_update"`
+	// 软删除
+	DeletedAt *time.Time `json:"-"`
 }
 
 // NoteUpdate 更新请求结构体，用指针可以判断是否有请求这个字段
@@ -275,6 +276,7 @@ func getNotes(c echo.Context) error {
 	if err := db.Where("user_id = ?", userID).Order("updated_at desc").Offset(offset).Limit(limit).Find(&ns).Error; err != nil {
 		return err
 	}
+	setPaginationHeader(c, limit > len(ns))
 	return c.JSON(http.StatusOK, ns)
 }
 
@@ -299,5 +301,6 @@ func getPublicNotes(c echo.Context) error {
 	if err := db.Where("is_public = true").Order("updated_at desc").Offset(offset).Limit(limit).Find(&ns).Error; err != nil {
 		return err
 	}
+	setPaginationHeader(c, limit > len(ns))
 	return c.JSON(http.StatusOK, ns)
 }
