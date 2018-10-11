@@ -12,12 +12,12 @@ import (
 // Note 纸条
 type Note struct {
 	ID          int        `json:"id" gorm:"primary_key"`
-	UserID      int        `json:"user_id" gorm:"index:idx_user_create"`
+	UserID      int        `json:"user_id" gorm:"index:idx_user_update"`
 	Title       string     `json:"title"`                    // 标题
 	Content     string     `json:"content" gorm:"size:2000"` // 内容
 	IsPublic    bool       `json:"is_public"`                // 是否公开
-	CreatedTime time.Time  `json:"created_time,omitempty" gorm:"index:idx_user_create"`
-	UpdatedTime time.Time  `json:"updated_time,omitempty"`
+	CreatedTime time.Time  `json:"created_time,omitempty"`
+	UpdatedTime time.Time  `json:"updated_time,omitempty" gorm:"index:idx_user_update"`
 	DeletedAt   *time.Time `json:"-"`
 }
 
@@ -36,6 +36,19 @@ func findNoteByID(id int) (*Note, error) {
 	return n, nil
 }
 
+// createNote 新建笔记
+// @Tags 笔记
+// @Summary 新建笔记
+// @Description 新建一条笔记
+// @Accept  json
+// @Produce  json
+// @Param data body main.Note true "笔记内容"
+// @Success 201 {object} main.Note
+// @Failure 400 {object} main.httpError
+// @Failure 401 {object} main.httpError
+// @Failure 500 {object} main.httpError
+// @Security ApiKeyAuth
+// @Router /notes [post]
 func createNote(c echo.Context) error {
 	var a = new(Note)
 	if err := c.Bind(a); err != nil {
@@ -62,6 +75,21 @@ func createNote(c echo.Context) error {
 	return c.JSON(http.StatusCreated, a)
 }
 
+// updateNote 更新笔记
+// @Tags 笔记
+// @Summary 更新笔记
+// @Description 更新指定id的笔记
+// @Accept  json
+// @Produce  json
+// @Param data body main.NoteUpdate true "更新内容"
+// @Success 200 {object} main.Note
+// @Failure 400 {object} main.httpError
+// @Failure 401 {object} main.httpError
+// @Failure 403 {object} main.httpError
+// @Failure 404 {object} main.httpError
+// @Failure 500 {object} main.httpError
+// @Security ApiKeyAuth
+// @Router /notes/{id} [put]
 func updateNote(c echo.Context) error {
 	// 获取URL中的ID
 	id, err := strconv.Atoi(c.Param("id"))
@@ -108,6 +136,21 @@ func updateNote(c echo.Context) error {
 	return c.JSON(http.StatusOK, old)
 }
 
+// deleteNote 删除笔记
+// @Tags 笔记
+// @Summary 删除笔记
+// @Description 删除指定id的笔记
+// @Accept  json
+// @Produce  json
+// @Param id path int true "笔记编号"
+// @Success 204
+// @Failure 400 {object} main.httpError
+// @Failure 401 {object} main.httpError
+// @Failure 403 {object} main.httpError
+// @Failure 404 {object} main.httpError
+// @Failure 500 {object} main.httpError
+// @Security ApiKeyAuth
+// @Router /notes/{id} [delete]
 func deleteNote(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -133,6 +176,21 @@ func deleteNote(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
+// getNote 获取笔记
+// @Tags 笔记
+// @Summary 获取笔记
+// @Description 获取指定id的笔记
+// @Accept  json
+// @Produce  json
+// @Param id path int true "笔记编号"
+// @Success 200 {object} main.Note
+// @Failure 400 {object} main.httpError
+// @Failure 401 {object} main.httpError
+// @Failure 403 {object} main.httpError
+// @Failure 404 {object} main.httpError
+// @Failure 500 {object} main.httpError
+// @Security ApiKeyAuth
+// @Router /notes/{id} [get]
 func getNote(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -153,6 +211,18 @@ func getNote(c echo.Context) error {
 	return c.JSON(http.StatusOK, n)
 }
 
+// getPublicNote 获取公开笔记
+// @Tags 笔记
+// @Summary 获取公开笔记
+// @Description 获取指定id的公开笔记
+// @Accept  json
+// @Produce  json
+// @Param id path int true "笔记编号"
+// @Success 200 {object} main.Note
+// @Failure 400 {object} main.httpError
+// @Failure 404 {object} main.httpError
+// @Failure 500 {object} main.httpError
+// @Router /public/notes/{id} [get]
 func getPublicNote(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -168,6 +238,20 @@ func getPublicNote(c echo.Context) error {
 	return c.JSON(http.StatusOK, n)
 }
 
+// getNotes 获取用户笔记列表
+// @Tags 笔记
+// @Summary 获取用户笔记列表
+// @Description 获取用户的全部笔记，有分页，默认一页10条。
+// @Accept  json
+// @Produce  json
+// @Param page query int false "页码"
+// @Param per_page query int false "每页几条"
+// @Success 200 {array} main.Note
+// @Failure 400 {object} main.httpError
+// @Failure 401 {object} main.httpError
+// @Failure 500 {object} main.httpError
+// @Security ApiKeyAuth
+// @Router /notes [get]
 func getNotes(c echo.Context) error {
 	// 提前make可以让查询没有结果的时候返回空列表
 	var ns = make([]*Note, 0)
@@ -185,6 +269,18 @@ func getNotes(c echo.Context) error {
 	return c.JSON(http.StatusOK, ns)
 }
 
+// getPublicNotes 获取公开笔记列表
+// @Tags 笔记
+// @Summary 获取公开笔记列表
+// @Description 获取公开的全部笔记，有分页，默认一页10条。
+// @Accept  json
+// @Produce  json
+// @Param page query int false "页码"
+// @Param per_page query int false "每页几条"
+// @Success 200 {array} main.Note
+// @Failure 400 {object} main.httpError
+// @Failure 500 {object} main.httpError
+// @Router /public/notes [get]
 func getPublicNotes(c echo.Context) error {
 	// 提前make可以让查询没有结果的时候返回空列表
 	var ns = make([]*Note, 0)

@@ -1,0 +1,408 @@
+basePath: /
+definitions:
+  main.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  main.Note:
+    properties:
+      content:
+        type: string
+      created_time:
+        type: string
+      id:
+        type: integer
+      is_public:
+        type: boolean
+      title:
+        type: string
+      updated_time:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  main.NoteUpdate:
+    properties:
+      content:
+        type: string
+      is_public:
+        type: boolean
+      title:
+        type: string
+    type: object
+  main.Token:
+    properties:
+      expires_at:
+        type: string
+      token:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  main.httpError:
+    properties:
+      code:
+        type: integer
+      error:
+        description: 错误代码，为英文字符串，前端可用此判断大的错误类型。
+        type: string
+      message:
+        description: 错误消息，为详细错误描述，前端可选择性的展示此字段。
+        type: string
+    type: object
+host: petstore.swagger.io
+info:
+  contact:
+    email: hyacinthus@gmail.com
+    name: Muninn
+  description: This is a demo server.
+  license:
+    name: MIT
+    url: https://github.com/hyacinthus/restdemo/blob/master/LICENSE
+  title: RESTful API DEMO
+  version: "1.0"
+paths:
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录
+      parameters:
+      - description: 登录凭证
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/main.LoginRequest'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/main.Token'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 登录
+      tags:
+      - 用户
+  /notes:
+    get:
+      consumes:
+      - application/json
+      description: 获取用户的全部笔记，有分页，默认一页10条。
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页几条
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.Note'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户笔记列表
+      tags:
+      - 笔记
+    post:
+      consumes:
+      - application/json
+      description: 新建一条笔记
+      parameters:
+      - description: 笔记内容
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/main.Note'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/main.Note'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 新建笔记
+      tags:
+      - 笔记
+  /notes/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定id的笔记
+      parameters:
+      - description: 笔记编号
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204": {}
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 删除笔记
+      tags:
+      - 笔记
+    get:
+      consumes:
+      - application/json
+      description: 获取指定id的笔记
+      parameters:
+      - description: 笔记编号
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Note'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 获取笔记
+      tags:
+      - 笔记
+    put:
+      consumes:
+      - application/json
+      description: 更新指定id的笔记
+      parameters:
+      - description: 更新内容
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/main.NoteUpdate'
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Note'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+      security:
+      - ApiKeyAuth: []
+      summary: 更新笔记
+      tags:
+      - 笔记
+  /public/notes:
+    get:
+      consumes:
+      - application/json
+      description: 获取公开的全部笔记，有分页，默认一页10条。
+      parameters:
+      - description: 页码
+        in: query
+        name: page
+        type: integer
+      - description: 每页几条
+        in: query
+        name: per_page
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/main.Note'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+      summary: 获取公开笔记列表
+      tags:
+      - 笔记
+  /public/notes/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 获取指定id的公开笔记
+      parameters:
+      - description: 笔记编号
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/main.Note'
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/main.httpError'
+            type: object
+      summary: 获取公开笔记
+      tags:
+      - 笔记
+swagger: "2.0"

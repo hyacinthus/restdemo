@@ -28,9 +28,21 @@ func getStatus(c echo.Context) error {
 	return c.NoContent(http.StatusNoContent)
 }
 
-// 登录函数，demo中为了简洁就只有user password可以通过
+// login 登录函数，demo中为了简洁就只有user password可以通过
 // 实际应用中这个函数会相当复杂，要用正则判断输入的用户名是什么类型，然后调用相关函数去找用户。
 // 还要兼容第三方登录，所以请求结构体也会更加复杂。
+// @Tags 用户
+// @Summary 登录
+// @Description 用户登录
+// @Accept  json
+// @Produce  json
+// @Param data body main.LoginRequest true "登录凭证"
+// @Success 201 {object} main.Token
+// @Failure 400 {object} main.httpError
+// @Failure 401 {object} main.httpError
+// @Failure 500 {object} main.httpError
+// @Security ApiKeyAuth
+// @Router /login [post]
 func login(c echo.Context) error {
 	// 判断何种方式登录，小程序为提供code
 	var req = new(LoginRequest) // 输入请求
@@ -74,8 +86,8 @@ func skipper(c echo.Context) bool {
 	resource := strings.Split(path, "/")[1]
 	switch resource {
 	case
-		// 公开信息
-		// "demo", // 示例，把需要公开的资源每个一行写这里
+		// 公开信息，把需要公开的资源每个一行写这里
+		"swagger",
 		"public":
 		return true
 	}
