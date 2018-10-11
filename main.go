@@ -30,6 +30,7 @@ func main() {
 		Skipper:   skipper,   // 跳过验证条件 在 auth.go 定义
 		Validator: validator, // 处理验证结果 在 auth.go 定义
 	}))
+	e.Use(ParsePagination) // 分页参数解析，在 pagination.go 定义
 
 	// Echo debug setting
 	if config.APP.Debug {

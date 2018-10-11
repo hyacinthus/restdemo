@@ -4,10 +4,8 @@ import (
 	"database/sql/driver"
 	"encoding/json"
 	"errors"
-	"strconv"
 	"strings"
 
-	"github.com/labstack/echo"
 	uuid "github.com/satori/go.uuid"
 	"github.com/sirupsen/logrus"
 )
@@ -58,35 +56,6 @@ func (f *FileURL) Scan(src interface{}) error {
 // Value implements the driver Valuer interface.
 func (f FileURL) Value() (driver.Value, error) {
 	return string(f), nil
-}
-
-// 获得页码，每页条数
-func parsePagination(c echo.Context) error {
-	var err error
-	var page, pageSize int
-	// 获得页码
-	if c.QueryParam("page") == "" {
-		page = 1
-	} else {
-		if page, err = strconv.Atoi(c.QueryParam("page")); err != nil {
-			return newHTTPError(400, "InvalidPage", "请在URL中提供合法的页码")
-		}
-	}
-	// 获得每页条数
-	if c.QueryParam("per_page") == "" {
-		pageSize = config.APP.PageSize
-	} else {
-		if pageSize, err = strconv.Atoi(c.QueryParam("per_page")); err != nil {
-			return newHTTPError(400, "InvalidPage", "请在URL中提供合法的每页条数")
-		}
-	}
-	// 设置查询数据时的 offset 和 limit
-	c.Set("offset", (page-1)*pageSize)
-	c.Set("limit", pageSize)
-	// 设置返回的Header
-	c.Response().Header().Set("X-Page-Num", strconv.Itoa(page))
-	c.Response().Header().Set("X-Page-Size", strconv.Itoa(pageSize))
-	return nil
 }
 
 func newUUID() string {

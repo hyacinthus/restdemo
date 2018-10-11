@@ -17,6 +17,7 @@ require (
 	github.com/mattn/go-isatty v0.0.4 // indirect
 	github.com/satori/go.uuid v1.2.1-0.20180103174451-36e9d2ebbde5
 	github.com/sirupsen/logrus v1.1.1
+	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
 	github.com/vmihailenco/msgpack v4.0.0+incompatible
