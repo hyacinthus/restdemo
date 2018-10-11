@@ -3,34 +3,45 @@ definitions:
   main.LoginRequest:
     properties:
       password:
+        description: 密码
         type: string
       username:
+        description: 用户名
         type: string
     type: object
   main.Note:
     properties:
       content:
+        description: 内容
         type: string
       created_time:
+        description: 创建时间
         type: string
       id:
         type: integer
       is_public:
+        description: 是否公开
         type: boolean
       title:
+        description: 标题
         type: string
       updated_time:
+        description: 最后更新时间
         type: string
       user_id:
+        description: 所属用户
         type: integer
     type: object
   main.NoteUpdate:
     properties:
       content:
+        description: 内容
         type: string
       is_public:
+        description: 是否公开
         type: boolean
       title:
+        description: 标题
         type: string
     type: object
   main.Token:
@@ -39,8 +50,6 @@ definitions:
         type: string
       token:
         type: string
-      user_id:
-        type: integer
     type: object
   main.httpError:
     properties:

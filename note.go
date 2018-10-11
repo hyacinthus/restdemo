@@ -11,21 +11,30 @@ import (
 
 // Note 纸条
 type Note struct {
-	ID          int        `json:"id" gorm:"primary_key"`
-	UserID      int        `json:"user_id" gorm:"index:idx_user_update"`
-	Title       string     `json:"title"`                    // 标题
-	Content     string     `json:"content" gorm:"size:2000"` // 内容
-	IsPublic    bool       `json:"is_public"`                // 是否公开
-	CreatedTime time.Time  `json:"created_time,omitempty"`
+	ID int `json:"id" gorm:"primary_key"`
+	// 所属用户
+	UserID int `json:"user_id" gorm:"index:idx_user_update"`
+	// 标题
+	Title string `json:"title"`
+	// 内容
+	Content string `json:"content" gorm:"size:2000"`
+	// 是否公开
+	IsPublic bool `json:"is_public"`
+	// 创建时间
+	CreatedTime time.Time `json:"created_time,omitempty"`
+	// 最后更新时间
 	UpdatedTime time.Time  `json:"updated_time,omitempty" gorm:"index:idx_user_update"`
 	DeletedAt   *time.Time `json:"-"`
 }
 
 // NoteUpdate 更新请求结构体，用指针可以判断是否有请求这个字段
 type NoteUpdate struct {
-	Title    *string `json:"title"`     // 标题
-	Content  *string `json:"content"`   // 内容
-	IsPublic *bool   `json:"is_public"` // 是否公开
+	// 标题
+	Title *string `json:"title"`
+	// 内容
+	Content *string `json:"content"`
+	// 是否公开
+	IsPublic *bool `json:"is_public"`
 }
 
 func findNoteByID(id int) (*Note, error) {

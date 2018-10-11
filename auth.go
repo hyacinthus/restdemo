@@ -12,7 +12,9 @@ import (
 
 // LoginRequest 登录提供内容
 type LoginRequest struct {
+	// 用户名
 	Username string `json:"username"`
+	// 密码
 	Password string `json:"password"`
 }
 
@@ -20,7 +22,7 @@ type LoginRequest struct {
 type Token struct {
 	Token     string    `json:"token"`
 	ExpiresAt time.Time `json:"expires_at"`
-	UserID    int       `json:"user_id"`
+	UserID    int       `json:"-"`
 }
 
 // API状态 成功204 失败500
