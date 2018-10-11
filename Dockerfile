@@ -1,23 +1,19 @@
-# build
-FROM golang:alpine AS build-env
+# build app
+FROM golang AS build-env
 
-ADD . /art
+ADD . /app
 
-WORKDIR /art
+WORKDIR /app
 
 RUN go build
 
-# app only
-FROM alpine
+# safe image
+FROM debian
 
-RUN apk add -U tzdata ca-certificates
+ENV TZ=Asia/Shanghai
 
-RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai  /etc/localtime
-
-ADD http://static.crandom.com/font/inziu-SC-regular.ttc /usr/share/fonts/
-
-COPY --from=build-env /art/art /usr/bin/art
+COPY --from=build-env /app/app /usr/bin/app
 
 EXPOSE 1324
 
-CMD ["art"]
+CMD ["app"]
