@@ -153,6 +153,21 @@ func getNote(c echo.Context) error {
 	return c.JSON(http.StatusOK, n)
 }
 
+func getPublicNote(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return newHTTPError(400, "InvalidID", "请在URL中提供合法的ID")
+	}
+	n, err := findNoteByID(id)
+	if err != nil {
+		return err
+	}
+	if !n.IsPublic {
+		return ErrNotFound
+	}
+	return c.JSON(http.StatusOK, n)
+}
+
 func getNotes(c echo.Context) error {
 	// 提前make可以让查询没有结果的时候返回空列表
 	var ns = make([]*Note, 0)
@@ -164,7 +179,19 @@ func getNotes(c echo.Context) error {
 	// 分页信息
 	limit := c.Get("limit").(int)
 	offset := c.Get("offset").(int)
-	if err := db.Where("user_id = ?", userID).Order("create_at desc").Offset(offset).Limit(limit).Find(&ns).Error; err != nil {
+	if err := db.Where("user_id = ?", userID).Order("updated_at desc").Offset(offset).Limit(limit).Find(&ns).Error; err != nil {
+		return err
+	}
+	return c.JSON(http.StatusOK, ns)
+}
+
+func getPublicNotes(c echo.Context) error {
+	// 提前make可以让查询没有结果的时候返回空列表
+	var ns = make([]*Note, 0)
+	// 分页信息
+	limit := c.Get("limit").(int)
+	offset := c.Get("offset").(int)
+	if err := db.Where("is_public = true").Order("updated_at desc").Offset(offset).Limit(limit).Find(&ns).Error; err != nil {
 		return err
 	}
 	return c.JSON(http.StatusOK, ns)

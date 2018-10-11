@@ -55,12 +55,14 @@ func main() {
 	// auth
 	e.POST("/login", login)
 
-	// artwork Routes
+	// note Routes
 	e.GET("/notes", getNotes)
 	e.POST("/notes", createNote)
 	e.GET("/notes/:id", getNote)
 	e.PUT("/notes/:id", updateNote)
 	e.DELETE("/notes/:id", deleteNote)
+	e.GET("/public/notes", getPublicNotes)
+	e.GET("/public/notes/:id", getPublicNote)
 
 	// Start echo server
 	e.Logger.Fatal(e.Start(config.APP.Host + ":" + config.APP.Port))
