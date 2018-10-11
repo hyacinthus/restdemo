@@ -4,9 +4,18 @@
 *.dll
 *.so
 *.dylib
+/app
+/restdemo
 
 # Test binary, build with `go test -c`
 *.test
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+# Editor
+.vscode
+
+# Debug
+debug
+.env
