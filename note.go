@@ -1,4 +1,3 @@
-// 公众号文章列表
 package main
 
 import (
@@ -16,6 +15,8 @@ type Note struct {
 	UserID int `json:"user_id" gorm:"index:idx_user_update"`
 	// 标题
 	Title string `json:"title"`
+	// 题图
+	Image FileURL `json:"image"`
 	// 内容
 	Content string `json:"content" gorm:"size:2000"`
 	// 是否公开
@@ -32,6 +33,8 @@ type Note struct {
 type NoteUpdate struct {
 	// 标题
 	Title *string `json:"title"`
+	// 题图
+	Image *FileURL `json:"image"`
 	// 内容
 	Content *string `json:"content"`
 	// 是否公开
@@ -128,6 +131,9 @@ func updateNote(c echo.Context) error {
 			return newHTTPError(400, "BadRequest", "Empty title")
 		}
 		old.Title = *n.Title
+	}
+	if n.Image != nil {
+		old.Image = *n.Image
 	}
 	if n.Content != nil {
 		if *n.Content == "" {
@@ -273,7 +279,9 @@ func getNotes(c echo.Context) error {
 	// 分页信息
 	limit := c.Get("limit").(int)
 	offset := c.Get("offset").(int)
-	if err := db.Where("user_id = ?", userID).Order("updated_at desc").Offset(offset).Limit(limit).Find(&ns).Error; err != nil {
+	err = db.Where("user_id = ?", userID).Order("updated_at desc").
+		Offset(offset).Limit(limit).Find(&ns).Error
+	if err != nil {
 		return err
 	}
 	setPaginationHeader(c, limit > len(ns))
@@ -298,7 +306,9 @@ func getPublicNotes(c echo.Context) error {
 	// 分页信息
 	limit := c.Get("limit").(int)
 	offset := c.Get("offset").(int)
-	if err := db.Where("is_public = true").Order("updated_at desc").Offset(offset).Limit(limit).Find(&ns).Error; err != nil {
+	err := db.Where("is_public = true").Order("updated_at desc").
+		Offset(offset).Limit(limit).Find(&ns).Error
+	if err != nil {
 		return err
 	}
 	setPaginationHeader(c, limit > len(ns))

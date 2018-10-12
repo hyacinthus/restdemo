@@ -13,7 +13,9 @@ func initDB() {
 	var err error
 	// mysql conn
 	for {
-		db, err = gorm.Open("mysql", config.DB.User+":"+config.DB.Password+"@tcp("+config.DB.Host+":"+config.DB.Port+")/"+config.DB.Name+"?charset=utf8mb4&parseTime=True&loc=Local&timeout=90s")
+		db, err = gorm.Open("mysql", config.DB.User+":"+config.DB.Password+
+			"@tcp("+config.DB.Host+":"+config.DB.Port+")/"+config.DB.Name+
+			"?charset=utf8mb4&parseTime=True&loc=Local&timeout=90s")
 		if err != nil {
 			log.Warnf("waiting to connect to db: %s", err.Error())
 			time.Sleep(time.Second * 2)
