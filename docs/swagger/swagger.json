@@ -13,16 +13,11 @@
         },
         "version": "1.0"
     },
-    "host": "petstore.swagger.io",
+    "host": "https://demo.crandom.com",
     "basePath": "/",
     "paths": {
         "/login": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "用户登录",
                 "consumes": [
                     "application/json"
@@ -526,15 +521,18 @@
         }
     },
     "definitions": {
+        "main.FileURL": {
+            "type": "object"
+        },
         "main.LoginRequest": {
             "type": "object",
             "properties": {
                 "password": {
-                    "description": "密码",
+                    "description": "密码\n",
                     "type": "string"
                 },
                 "username": {
-                    "description": "用户名",
+                    "description": "用户名\n",
                     "type": "string"
                 }
             }
@@ -543,30 +541,35 @@
             "type": "object",
             "properties": {
                 "content": {
-                    "description": "内容",
+                    "description": "内容\n",
                     "type": "string"
                 },
-                "created_time": {
-                    "description": "创建时间",
+                "created_at": {
+                    "description": "创建时间\n",
                     "type": "string"
                 },
                 "id": {
                     "type": "integer"
                 },
+                "image": {
+                    "description": "题图\n",
+                    "type": "object",
+                    "$ref": "#/definitions/main.FileURL"
+                },
                 "is_public": {
-                    "description": "是否公开",
+                    "description": "是否公开\n",
                     "type": "boolean"
                 },
                 "title": {
-                    "description": "标题",
+                    "description": "标题\n",
                     "type": "string"
                 },
-                "updated_time": {
-                    "description": "最后更新时间",
+                "updated_at": {
+                    "description": "最后更新时间\n",
                     "type": "string"
                 },
                 "user_id": {
-                    "description": "所属用户",
+                    "description": "所属用户\n",
                     "type": "integer"
                 }
             }
@@ -575,15 +578,20 @@
             "type": "object",
             "properties": {
                 "content": {
-                    "description": "内容",
+                    "description": "内容\n",
                     "type": "string"
                 },
+                "image": {
+                    "description": "题图\n",
+                    "type": "object",
+                    "$ref": "#/definitions/main.FileURL"
+                },
                 "is_public": {
-                    "description": "是否公开",
+                    "description": "是否公开\n",
                     "type": "boolean"
                 },
                 "title": {
-                    "description": "标题",
+                    "description": "标题\n",
                     "type": "string"
                 }
             }
@@ -606,11 +614,11 @@
                     "type": "integer"
                 },
                 "error": {
-                    "description": "错误代码，为英文字符串，前端可用此判断大的错误类型。",
+                    "description": "错误代码，为英文字符串，前端可用此判断大的错误类型。\n",
                     "type": "string"
                 },
                 "message": {
-                    "description": "错误消息，为详细错误描述，前端可选择性的展示此字段。",
+                    "description": "错误消息，为详细错误描述，前端可选择性的展示此字段。\n",
                     "type": "string"
                 }
             }

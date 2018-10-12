@@ -31,7 +31,7 @@ var (
 // @license.name MIT
 // @license.url https://github.com/hyacinthus/restdemo/blob/master/LICENSE
 
-// @host petstore.swagger.io
+// @host https://demo.crandom.com
 // @BasePath /
 func main() {
 	// init echo

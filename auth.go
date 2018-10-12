@@ -43,7 +43,6 @@ func getStatus(c echo.Context) error {
 // @Failure 400 {object} main.httpError
 // @Failure 401 {object} main.httpError
 // @Failure 500 {object} main.httpError
-// @Security ApiKeyAuth
 // @Router /login [post]
 func login(c echo.Context) error {
 	// 判断何种方式登录，小程序为提供code
@@ -118,7 +117,8 @@ func validator(token string, c echo.Context) (bool, error) {
 	return true, nil
 }
 
-// 这个函数还有一种设计风格，就是只是返回userid，以支持可选登录，在业务中判断userid如果是0就没有登录
+// 这个函数还有一种设计风格，就是只是返回userid，
+// 以支持可选登录，在业务中判断userid如果是0就没有登录
 func parseUser(c echo.Context) (userID int, err error) {
 	userID, ok := c.Get("user_id").(int)
 	if !ok || userID == 0 {
