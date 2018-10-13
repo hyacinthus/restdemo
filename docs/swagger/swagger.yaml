@@ -87,7 +87,7 @@ definitions:
           错误消息，为详细错误描述，前端可选择性的展示此字段。
         type: string
     type: object
-host: https://demo.crandom.com
+host: demo.crandom.com
 info:
   contact:
     email: hyacinthus@gmail.com

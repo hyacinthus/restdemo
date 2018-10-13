@@ -13,7 +13,7 @@
         },
         "version": "1.0"
     },
-    "host": "https://demo.crandom.com",
+    "host": "demo.crandom.com",
     "basePath": "/",
     "paths": {
         "/login": {
