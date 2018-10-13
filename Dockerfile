@@ -1,9 +1,9 @@
 # build app
 FROM golang AS build-env
 
-ADD . /app
+ADD . /restdemo
 
-WORKDIR /app
+WORKDIR /restdemo
 
 RUN go build
 
@@ -12,8 +12,8 @@ FROM debian
 
 ENV TZ=Asia/Shanghai
 
-COPY --from=build-env /app/app /usr/bin/app
+COPY --from=build-env /restdemo/restdemo /usr/bin/restdemo
 
 EXPOSE 1324
 
-CMD ["app"]
+CMD ["restdemo"]
