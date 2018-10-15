@@ -9,12 +9,30 @@ services:
       - APP_DEBUG=false
       - APP_BASEURL=https://demo.crandom.com/
       - APP_FILEURL=https://static.crandom.com/
-      - DB_HOST=127.0.0.1
+      - DB_HOST=mysql
       - DB_PORT=3306
       - DB_NAME=demo
-      - REDIS_HOST=127.0.0.1
+      - REDIS_HOST=redis
       - REDIS_PORT=6379
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
+
+  redis:
+    image: redis
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  mysql:
+    image: mysql:8
+    volumes:
+      - db-data:/var/lib/mysql 
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+volumes:
+  db-data:
