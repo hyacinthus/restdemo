@@ -8,6 +8,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
+	"github.com/swaggo/echo-swagger"
 )
 
 // 定义全区变量 为了保证执行顺序 初始化均在main中执行
