@@ -4,9 +4,12 @@ require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
-	github.com/go-openapi/spec v0.17.0 // indirect
+	github.com/go-openapi/jsonpointer v0.17.2 // indirect
+	github.com/go-openapi/jsonreference v0.17.2 // indirect
+	github.com/go-openapi/spec v0.17.2 // indirect
+	github.com/go-openapi/swag v0.17.2 // indirect
 	github.com/go-redis/cache v6.3.5+incompatible
-	github.com/go-redis/redis v6.14.1+incompatible
+	github.com/go-redis/redis v6.14.2+incompatible
 	github.com/go-sql-driver/mysql v1.4.0 // indirect
 	github.com/jinzhu/configor v0.0.0-20180614024415-4edaf76fe188
 	github.com/jinzhu/gorm v1.9.1
@@ -25,8 +28,9 @@ require (
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
-	github.com/vmihailenco/msgpack v4.0.0+incompatible
-	golang.org/x/crypto v0.0.0-20181009213950-7c1a557ab941 // indirect
-	golang.org/x/sys v0.0.0-20181005133103-4497e2df6f9e // indirect
+	github.com/vmihailenco/msgpack v4.0.1+incompatible
+	golang.org/x/crypto v0.0.0-20181025213731-e84da0312774 // indirect
+	golang.org/x/net v0.0.0-20181023162649-9b4f9f5ad519 // indirect
+	golang.org/x/sys v0.0.0-20181026203630-95b1ffbd15a5 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 )
