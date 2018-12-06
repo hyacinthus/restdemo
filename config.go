@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/jinzhu/configor"
 	"github.com/joho/godotenv"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 var config = struct {
@@ -36,12 +36,12 @@ func init() {
 	godotenv.Load()
 	configor.Load(&config)
 	if config.APP.Debug {
-		log.SetFormatter(&log.TextFormatter{
+		logrus.SetFormatter(&logrus.TextFormatter{
 			FullTimestamp:   true,
 			TimestampFormat: "06-01-02 15:04:05.00",
 		})
-		log.SetLevel(log.DebugLevel)
+		logrus.SetLevel(logrus.DebugLevel)
 	} else {
-		log.SetLevel(log.InfoLevel)
+		logrus.SetLevel(logrus.InfoLevel)
 	}
 }

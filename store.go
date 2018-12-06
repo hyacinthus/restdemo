@@ -3,10 +3,9 @@ package main
 import (
 	"time"
 
-	log "github.com/sirupsen/logrus"
-
 	"github.com/go-redis/redis"
 	"github.com/jinzhu/gorm"
+	"github.com/sirupsen/logrus"
 )
 
 func initDB() {
@@ -17,11 +16,11 @@ func initDB() {
 			"@tcp("+config.DB.Host+":"+config.DB.Port+")/"+config.DB.Name+
 			"?charset=utf8mb4&parseTime=True&loc=Local&timeout=90s")
 		if err != nil {
-			log.Warnf("waiting to connect to db: %s", err.Error())
+			logrus.Warnf("waiting to connect to db: %s", err.Error())
 			time.Sleep(time.Second * 2)
 			continue
 		}
-		log.Info("Mysql connect successful.")
+		logrus.Info("Mysql connect successful.")
 		break
 	}
 
@@ -43,5 +42,5 @@ func initRedis() {
 		Password: config.Redis.Password,
 		DB:       config.Redis.DB,
 	})
-	log.Info("Redis connect successful.")
+	logrus.Info("Redis connect successful.")
 }
