@@ -1,5 +1,10 @@
 # 用 Golang 快速开发 RESTful API
 
+这是我 2018 年一个演讲上用的 demo，用 golang 实现一个五脏俱全的 API 项目。
+
+计划大概写一篇博客做说明，但是还没抽出空来写，可以看当时的演讲 PPT ，大概只是个
+提纲。项目根目录有个 PDF 文件就是。
+
 ## 使用方法
 
 只要安装了 docker ，在项目目录执行:
@@ -26,6 +31,8 @@ docker stack deploy -c docker-compose.yml demo
 
 ## 一些更新
 
-- uuid 库我现在已经启用，更喜欢用 [xid](https://github.com/rs/xid)
+还没有体现在这个 demo 里
+
+- uuid 库我现在已经弃用，更喜欢用 [xid](https://github.com/rs/xid)
 - swag 已经弃用，更为成熟的是
   [go-swagger](https://github.com/go-swagger/go-swagger)
