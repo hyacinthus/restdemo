@@ -7,7 +7,7 @@
 
 ## 使用方法
 
-只要安装了 docker ，在项目目录执行:
+只要安装了 docker ，并开启了 Swarm 模式，在项目目录执行:
 
 ```bash
 docker stack deploy -c docker-compose.yml demo
@@ -17,12 +17,13 @@ docker stack deploy -c docker-compose.yml demo
 
 然后访问 your-host:1328/swagger/index.html 可以看到所有的 api
 
-我也在线部署了一份，[点击这里查看](https://demo.crandom.com/swagger/index.html)
+如果没有开放 swarm 模式，也可以自行改改 compose 文件用 docker-compose 启动.
 
 ## 关于项目组织
 
-开发微服务的时候，建议不用弄太多文件夹来分层。尽量把同一个实体的模型和业务逻辑全
-放一个文件里其实是比较好维护的。
+开发微服务的时候，建议不用建太多文件夹来横向分层。尽量把同一个实体的模型和业务逻
+辑全放一个文件里其实是最利于代码维护的。因为微服务项目每个服务维护的实体其实很少
+，所以并不会很乱。
 
 现在文件看起来比较乱是因为有太多的公用模块，业务逻辑只有 `note.go` 一个文件。但
 是实际上，真的写微服务的时候，最好做一个自己的公用 package，剩下的文件大部分就都
@@ -34,5 +35,5 @@ docker stack deploy -c docker-compose.yml demo
 还没有体现在这个 demo 里
 
 - uuid 库我现在已经弃用，更喜欢用 [xid](https://github.com/rs/xid)
-- swag 已经弃用，更为成熟的是
-  [go-swagger](https://github.com/go-swagger/go-swagger)
+- swag 其实可以把展示统一维护在项目之外，在 ci 的时候生成 json 文件，业务代码里
+  只有注释，不用提供 swagger 的 endpoint ，这样是侵入最小的。
