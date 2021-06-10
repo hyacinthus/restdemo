@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/go-redis/cache"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 )
 

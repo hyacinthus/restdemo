@@ -1,36 +1,35 @@
 module github.com/hyacinthus/restdemo
 
+go 1.16
+
 require (
 	github.com/BurntSushi/toml v0.3.1 // indirect
-	github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
-	github.com/go-openapi/jsonpointer v0.17.2 // indirect
-	github.com/go-openapi/jsonreference v0.17.2 // indirect
-	github.com/go-openapi/spec v0.17.2 // indirect
-	github.com/go-openapi/swag v0.17.2 // indirect
-	github.com/go-redis/cache v6.3.5+incompatible
-	github.com/go-redis/redis v6.14.2+incompatible
-	github.com/go-sql-driver/mysql v1.4.0 // indirect
-	github.com/jinzhu/configor v0.0.0-20180614024415-4edaf76fe188
-	github.com/jinzhu/gorm v1.9.1
-	github.com/jinzhu/inflection v0.0.0-20180308033659-04140366298a // indirect
+	github.com/denisenkom/go-mssqldb v0.10.0 // indirect
+	github.com/erikstmartin/go-testdb v0.0.0-20160219214506-8d10e4a1bae5 // indirect
+	github.com/go-redis/cache v6.4.0+incompatible
+	github.com/go-redis/redis v6.15.9+incompatible
+	github.com/go-sql-driver/mysql v1.6.0 // indirect
+	github.com/jinzhu/configor v1.2.1
+	github.com/jinzhu/gorm v1.9.16
+	github.com/jinzhu/now v1.1.2 // indirect
 	github.com/joho/godotenv v1.3.0
-	github.com/konsorten/go-windows-terminal-sequences v1.0.1 // indirect
-	github.com/labstack/echo v3.2.1+incompatible
-	github.com/labstack/gommon v0.2.7 // indirect
-	github.com/mattn/go-colorable v0.0.9 // indirect
-	github.com/mattn/go-isatty v0.0.4 // indirect
+	github.com/konsorten/go-windows-terminal-sequences v1.0.3 // indirect
+	github.com/kr/pretty v0.2.1 // indirect
+	github.com/labstack/echo/v4 v4.3.0
+	github.com/lib/pq v1.10.2 // indirect
+	github.com/mattn/go-isatty v0.0.13 // indirect
+	github.com/mattn/go-sqlite3 v1.14.7 // indirect
+	github.com/onsi/ginkgo v1.16.4 // indirect
+	github.com/onsi/gomega v1.13.0 // indirect
 	github.com/satori/go.uuid v1.2.1-0.20180103174451-36e9d2ebbde5
-	github.com/sirupsen/logrus v1.1.1
-	github.com/swaggo/echo-swagger v0.0.0-20180315045949-97f46bb9e5a5
-	github.com/swaggo/files v0.0.0-20180215091130-49c8a91ea3fa // indirect
-	github.com/swaggo/swag v1.3.2
+	github.com/sirupsen/logrus v1.8.1
 	github.com/tomnomnom/linkheader v0.0.0-20180905144013-02ca5825eb80
-	github.com/valyala/bytebufferpool v1.0.0 // indirect
-	github.com/valyala/fasttemplate v0.0.0-20170224212429-dcecefd839c4 // indirect
-	github.com/vmihailenco/msgpack v4.0.1+incompatible
-	golang.org/x/crypto v0.0.0-20181025213731-e84da0312774 // indirect
-	golang.org/x/net v0.0.0-20181023162649-9b4f9f5ad519 // indirect
-	golang.org/x/sys v0.0.0-20181026203630-95b1ffbd15a5 // indirect
+	github.com/vmihailenco/msgpack v4.0.4+incompatible
+	golang.org/x/crypto v0.0.0-20210513164829-c07d793c2f9a // indirect
+	golang.org/x/net v0.0.0-20210525063256-abc453219eb5 // indirect
+	golang.org/x/sys v0.0.0-20210608053332-aa57babbf139 // indirect
+	golang.org/x/term v0.0.0-20210503060354-a79de5458b56 // indirect
+	golang.org/x/time v0.0.0-20210608053304-ed9ce3a009e4 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
 	gopkg.in/check.v1 v1.0.0-20180628173108-788fd7840127 // indirect
 )

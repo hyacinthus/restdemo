@@ -5,6 +5,15 @@
 计划大概写一篇博客做说明，但是还没抽出空来写，可以看当时的演讲 PPT ，大概只是个
 提纲。项目根目录有个 PDF 文件就是。
 
+2021年6月10日：
+
+我看到偶尔还有同学通过PPT或者视频来到这个repo，这是三年前的代码，虽然各种原理和写法可以对着演讲参考，
+但是代码本身和它的依赖都已经过时了。大家看个意思就好，这些年来，我也有很多新的经验，它都被反映在了我新的项目中。
+
+这里有一个开源项目是我一直维护着的，代码也比较简洁，大家可以去看这个项目学习：
+
+[https://github.com/hack-fan/skadi](https://github.com/hack-fan/skadi)
+
 ## 使用方法
 
 只要安装了 docker ，在项目目录执行:
@@ -35,4 +44,5 @@ docker stack deploy -c docker-compose.yml demo
 
 - uuid 库我现在已经弃用，更喜欢用 [xid](https://github.com/rs/xid)
 - swag 已经弃用，更为成熟的是
-  [go-swagger](https://github.com/go-swagger/go-swagger)
+  [go-swagger](https://github.com/go-swagger/go-swagger) 其实我后来都不用代码注释维护 Swagger，直接手写 swagger 文件效果更好。
+- 日志库 zap 比 logrus 更好
