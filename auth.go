@@ -104,7 +104,7 @@ func validator(token string, c echo.Context) (bool, error) {
 		return true, nil
 	}
 	// 寻找token
-	var t *Token
+	var t = new(Token)
 	err := getcc("token:"+token, t)
 	if err == cache.ErrCacheMiss {
 		return false, nil
